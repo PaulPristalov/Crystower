@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d971da5d9ee012a4380ecc8415c5177d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 281170
+  packageName: Brown Rock Tileset - Top-down 32x32 Pixel-art
+  packageVersion: 1.0.2
+  assetPath: Assets/Brown Rock Tileset/Palettes/Tiles/BROWNROCK_full_tileset_v2_880.asset
+  uploadId: 668266
