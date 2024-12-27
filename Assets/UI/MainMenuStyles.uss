@@ -1,0 +1,64 @@
+.MainMenuButton {
+    flex-wrap: nowrap;
+    font-size: 60px;
+    color: rgb(255, 255, 255);
+    -unity-text-align: middle-left;
+    white-space: normal;
+    -unity-font-style: normal;
+    background-color: rgba(149, 149, 149, 0);
+    -unity-text-outline-color: rgba(255, 255, 255, 0);
+    -unity-text-outline-width: 0;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.button-mainmenu {
+    font-size: 60px;
+    -unity-text-align: middle-left;
+    white-space: normal;
+    color: rgb(255, 255, 255);
+    background-color: rgba(188, 188, 188, 0);
+    text-shadow: 5px 2px 10px rgba(0, 0, 0, 0.58);
+    -unity-font-style: bold;
+    margin-right: 20px;
+    margin-left: 20px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 5px;
+    border-left-width: 0;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    transition-duration: 0.1s;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.button-mainmenu:hover {
+    transition-duration: 0.2s;
+    scale: 1.1 1.1;
+    transition-timing-function: linear;
+}
+
+.button-mainmenu:active {
+    transition-timing-function: linear;
+    color: rgb(141, 141, 141);
+    transition-duration: 0.1s;
+}
+
+.panel-mainmenu {
+    flex-grow: 1;
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    align-items: auto;
+    align-self: center;
+    align-content: auto;
+    background-color: rgb(107, 107, 107);
+    justify-content: flex-start;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    margin-right: 5%;
+    margin-left: 5%;
+}
