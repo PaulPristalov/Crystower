@@ -1,0 +1,22 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MainMenuStyles.uss?fileID=7433441132597879392&amp;guid=8639a53bbbe0416478d4218e4c679a8d&amp;type=3#MainMenuStyles" />
+    <engine:VisualElement name="Buttons" style="flex-grow: 0; flex-shrink: 1; width: 20%; height: 50%; bottom: 0; background-color: rgba(255, 255, 255, 0); position: absolute; -unity-background-image-tint-color: rgb(255, 255, 255); -unity-text-align: lower-left; align-content: flex-end; justify-content: flex-end; margin-bottom: 30px; margin-left: 30px;">
+        <engine:Button text="Play" name="PlayButton" class="button-mainmenu" />
+        <engine:Button text="Inventrory" name="InventoryButton" class="button-mainmenu" style="font-size: 40px;" />
+        <engine:Button text="Achievements" name="AchievementsButton" class="button-mainmenu" style="font-size: 40px;" />
+        <engine:Button text="Settings" name="SettingsButton" class="button-mainmenu" style="font-size: 40px;" />
+        <engine:Button text="Quit" name="QuitButton" enable-rich-text="true" class="button-mainmenu" style="font-size: 40px;" />
+    </engine:VisualElement>
+    <engine:VisualElement name="PlayPanel" class="panel-mainmenu" style="display: none; background-color: rgb(22, 255, 0);">
+        <engine:Button text="x" name="PlayPanelCloseButton" class="button-mainmenu" style="border-bottom-width: 0;" />
+    </engine:VisualElement>
+    <engine:VisualElement name="InventoryPanel" class="panel-mainmenu" style="display: none; background-color: rgb(255, 147, 0);">
+        <engine:Button text="x" name="InventoryPanelCloseButton" class="button-mainmenu" style="border-bottom-width: 0;" />
+    </engine:VisualElement>
+    <engine:VisualElement name="AchievementsPanel" class="panel-mainmenu" style="display: none; background-color: rgb(255, 0, 64);">
+        <engine:Button text="x" name="AchievementsPanelCloseButton" class="button-mainmenu" style="border-bottom-width: 0;" />
+    </engine:VisualElement>
+    <engine:VisualElement name="SettingsPanel" class="panel-mainmenu" style="display: none; background-color: rgb(84, 0, 255);">
+        <engine:Button text="x" name="SettingsPanelCloseButton" class="button-mainmenu" style="border-bottom-width: 0;" />
+    </engine:VisualElement>
+</engine:UXML>
