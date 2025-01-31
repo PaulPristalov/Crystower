@@ -1,31 +1,33 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-public class TilesFacroty : MonoBehaviour
+namespace GameScene.LevelGeneration
 {
-    [SerializeField] private TileBase _groundTile;
-    [SerializeField] private TileBase _waterTile;
-    [SerializeField] private TileBase _mountainTile;
-                                 
-    public TileBase GetTile(TileType type)
+    public class TilesFacroty : MonoBehaviour
     {
-        switch (type)
+        [SerializeField] private GameObject _groundTile;
+        [SerializeField] private GameObject _waterTile;
+        [SerializeField] private GameObject _mountainTile;
+
+        public GameObject GetTile(TileType type)
         {
-            case TileType.Ground:
-                return _groundTile;
-            case TileType.Water:
-                return _waterTile;
-            case TileType.Mountain:
-                return _mountainTile;
-            default:
-                return null;
+            switch (type)
+            {
+                case TileType.Ground:
+                    return _groundTile;
+                case TileType.Water:
+                    return _waterTile;
+                case TileType.Mountain:
+                    return _mountainTile;
+                default:
+                    return null;
+            }
         }
     }
-}
 
-public enum TileType
-{
-    Ground,
-    Water,
-    Mountain
+    public enum TileType
+    {
+        Ground,
+        Water,
+        Mountain
+    }
 }
