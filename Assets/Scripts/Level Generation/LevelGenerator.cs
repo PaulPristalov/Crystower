@@ -64,27 +64,27 @@ public class LevelGenerator : MonoBehaviour
 
     private void PlaceWater()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
     private void PlaceMountains()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
     private void PlaceDecoration()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
     private void PlaceCrystal()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
     private void PlaceResources()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     private void PlaceCreatures()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 }
