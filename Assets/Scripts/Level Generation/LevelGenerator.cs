@@ -1,3 +1,4 @@
+using GameScene.LevelGeneration;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -57,7 +58,7 @@ public class LevelGenerator : MonoBehaviour
             for (int x = 0; x < _size.x; x++)
             {
                 Vector3Int position = new Vector3Int(x + _offset.x, y + _offset.y, 0);
-                _groundMap.SetTile(position, _tilesFacroty.GetTile(TileType.Ground));
+                //_groundMap.SetTile(position, _tilesFacroty.GetTile(TileType.Ground));
             }
         }
     }
