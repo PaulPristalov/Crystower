@@ -1,11 +1,11 @@
 using Assets.Scripts.Settings.constants;
-using Assets.Scripts.Settings;
+using Assets.Scripts.Interfaces;
 using Assets.Scripts.Utils;
 using UnityEngine;
 
 public class Bootstrap : MonoBehaviour
 {
-    private FileManager fileManager;
+    private IFileManager fileManager;
 
     private void Awake()
     {
