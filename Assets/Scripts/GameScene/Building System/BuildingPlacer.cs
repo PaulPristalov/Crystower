@@ -1,3 +1,4 @@
+using GameScene.BuildingSystem;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,15 +8,9 @@ using UnityEngine;
 public class BuildingPlacer : MonoBehaviour
 {
     [SerializeField] private BuildingGrid _grid;
-    [SerializeField] private Building _buildingPrefab;
+    [SerializeField] private BuildingGridObject _buildingPrefab;
     
-    private Building _currentBuilding;
-    private List<Building> _buildings;
-
-    private void Start()
-    {
-        _buildings = new List<Building>();
-    }
+    private BuildingGridObject _currentBuilding;
 
     private void Update()
     {
@@ -32,7 +27,7 @@ public class BuildingPlacer : MonoBehaviour
 
         if (_currentBuilding != null)
         {
-            Move(_currentBuilding, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            Move(_currentBuilding, RaycastToMousePosition());
 
             if (Input.GetMouseButtonDown(0) && 
                 _grid.IsCellsAvailable(_currentBuilding.Size, _currentBuilding.transform.position))
@@ -48,7 +43,7 @@ public class BuildingPlacer : MonoBehaviour
     /// </summary>
     /// <param name="building"></param>
     /// <param name="worldPosition"></param>
-    public void Move(Building building, Vector3 worldPosition)
+    public void Move(BuildingGridObject building, Vector3 worldPosition)
     {
         Vector3 position = _grid.CalculateBuildingPosition(building.Size, worldPosition);
         building.transform.position = position;
@@ -60,35 +55,18 @@ public class BuildingPlacer : MonoBehaviour
     /// <param name="building"></param>
     /// <param name="worldPosition"></param>
     /// <exception cref="System.Exception"></exception>
-    public void Place(Building building, Vector3 worldPosition)
+    public void Place(BuildingGridObject building, Vector3 worldPosition)
     {
         if (!_grid.IsCellsAvailable(building.Size, building.transform.position))
             throw new System.Exception($"You can't place building at {building.transform.position}");
 
         Move(building, worldPosition);
         building.Place();
-        _grid.OccupyCells(_grid.GetOccupiedCells(building.Size, building.transform.position));
-        _buildings.Add(building);
-        building.OnDestroying.AddListener(Destroy);
     }
 
-    /// <summary>
-    /// Destroy the building and clear its cells in the grid.
-    /// </summary>
-    /// <param name="building"></param>
-    /// <exception cref="System.NullReferenceException"></exception>
-    public void Destroy(Building building)
+    private Vector3 RaycastToMousePosition() // Â InputHandler
     {
-        if (building == null)
-            throw new System.NullReferenceException();
-
-        _grid.FreeCells(_grid.GetOccupiedCells(building.Size, building.transform.position));
-        building.OnDestroying.RemoveListener(Destroy);
-
-        if (_buildings.Contains(building))
-            _buildings.Remove(building);
-
-        if (building.Placed)
-            Destroy(building.gameObject);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        return Physics.Raycast(ray, out RaycastHit hit) ? hit.point : Vector3.zero;
     }
 }

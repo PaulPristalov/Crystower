@@ -77,7 +77,7 @@ namespace GameScene.LevelGeneration
             {
                 for (int x = 0; x < _size.x; x++)
                 {
-                    Vector3 position = new(x + _offset.x, 0, y + _offset.y);
+                    Vector3 position = new(x + _offset.x, transform.position.y, y + _offset.y);
                     GameObject tile = _tilesFacroty.GetTile(TileType.Ground);
                     float pixel = noise.PerlinPixel(x, y);
 
