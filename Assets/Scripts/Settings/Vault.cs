@@ -1,7 +1,10 @@
-﻿namespace Assets.Scripts.Settings
+﻿using UnityEngine;
+
+namespace Assets.Scripts.Settings
 {
     [System.Serializable]
-    internal class Vault
+    [CreateAssetMenu(fileName = "Settings", menuName = "Scriptable Objects/Settings")]
+    internal class Vault : ScriptableObject
     {
         public float musicVolume;
         public float volume;

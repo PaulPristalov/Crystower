@@ -6,12 +6,14 @@ namespace Assets.Scripts.Utils
 {
     internal class FileManager : IFileManager
     {
-        public T Load<T>(string FileName) where T : new()
+        public void Load(string FileName, ScriptableObject obj)
         {
             using (BinaryReader reader = new BinaryReader(File.Open(FileName, FileMode.Open)))
             {
                 string json = reader.ReadString();
-                return JsonUtility.FromJson<T>(json); 
+                JsonUtility.FromJsonOverwrite(json, obj);
+
+                Debug.Log(json);
             }
         }
 

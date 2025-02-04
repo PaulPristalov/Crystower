@@ -12,6 +12,8 @@ public class EntryBootstrap : MonoBehaviour
 
     private IFileManager fileManager;
 
+    [Header("Vault of settings")]
+    [SerializeField] private Assets.Scripts.Settings.Vault settingsVault;
     public bool Loaded { get; private set; } = false;
 
     private void Awake()
@@ -20,19 +22,18 @@ public class EntryBootstrap : MonoBehaviour
 
         fileManager = new FileManager();
 
-        Assets.Scripts.Settings.Vault vault1 = new()
-        {
-            musicVolume = 1f,
-            volume = 1f,
-            isVibration = true,
-            graphicsQuality = 1,
-            language = Assets.Scripts.Settings.LanguageEnums.RUSSIA
-        };
+        //Assets.Scripts.Settings.Vault vault1 = new()
+        //{
+        //    musicVolume = 1f,
+        //    volume = 1f,
+        //    isVibration = true,
+        //    graphicsQuality = 1,
+        //    language = Assets.Scripts.Settings.LanguageEnums.RUSSIA
+        //};
 
-        fileManager.Save(FileNames.SETTINGS_NAME, vault1);
+        //fileManager.Save(FileNames.SETTINGS_NAME, vault1);
 
-        Assets.Scripts.Settings.Vault vault = fileManager.Load<Assets.Scripts.Settings.Vault>(FileNames.SETTINGS_NAME);
-        print(JsonUtility.ToJson(vault));
+        fileManager.Load(FileNames.SETTINGS_NAME, settingsVault);
 
         // TODO: Get this from save file.
         MainMenu.Inventory.SelectedItem[] selectedItems = {
