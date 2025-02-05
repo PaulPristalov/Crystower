@@ -1,5 +1,6 @@
-using Assets.Scripts.Interfaces;
 using Assets.Scripts.Settings.constants;
+using Assets.Scripts.Interfaces;
+using Assets.Scripts.Settings;
 using Assets.Scripts.Utils;
 using UnityEngine;
 
@@ -10,11 +11,19 @@ public class EntryBootstrap : MonoBehaviour
     [SerializeField] private MainMenu.Inventory.Item[] _startItems; // Test
     private MainMenu.Inventory.Vault _inventory;
 
+    public bool Loaded { get; private set; } = false;
+
     private IFileManager fileManager;
+
+    [SerializeField] private SettingsUI settingsUI;
 
     [Header("Vault of settings")]
     [SerializeField] private Assets.Scripts.Settings.Vault settingsVault;
-    public bool Loaded { get; private set; } = false;
+
+    private void OnValidate()
+    {
+        settingsUI = FindObjectOfType<SettingsUI>();
+    }
 
     private void Awake()
     {
@@ -24,8 +33,8 @@ public class EntryBootstrap : MonoBehaviour
 
         //Assets.Scripts.Settings.Vault vault1 = new()
         //{
-        //    musicVolume = 1f,
-        //    volume = 1f,
+        //    musicVolume = 0.1f,
+        //    volume = 0.1f,
         //    isVibration = true,
         //    graphicsQuality = 1,
         //    language = Assets.Scripts.Settings.LanguageEnums.RUSSIA
@@ -34,6 +43,8 @@ public class EntryBootstrap : MonoBehaviour
         //fileManager.Save(FileNames.SETTINGS_NAME, vault1);
 
         fileManager.Load(FileNames.SETTINGS_NAME, settingsVault);
+
+        settingsUI.Init(fileManager);
 
         // TODO: Get this from save file.
         MainMenu.Inventory.SelectedItem[] selectedItems = {
