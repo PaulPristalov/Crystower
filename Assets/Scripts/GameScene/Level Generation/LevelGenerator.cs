@@ -23,22 +23,14 @@ namespace GameScene.LevelGeneration
 
         [SerializeField] private Renderer _renderer;
 
-        private Vector2Int _offset => -_size / 2;
+        private Vector2 _offset => new(-_size.x / 2f, -_size.y / 2f);
 
         public event UnityAction OnLevelFinished;
 
         private void OnValidate()
         {
-            if (_size.x <= 0)
-            {
-                Debug.LogError("Level size can't be less or equal 0!");
-                _size.x = 1;
-            }
-            if (_size.y <= 0)
-            {
-                Debug.LogError("Level size can't be less or equal 0!");
-                _size.y = 1;
-            }
+            _size.x = Mathf.Clamp(_size.x, 1, 1000);
+            _size.y = Mathf.Clamp(_size.y, 1, 1000);
         }
 
         private void Start()
@@ -77,8 +69,9 @@ namespace GameScene.LevelGeneration
             {
                 for (int x = 0; x < _size.x; x++)
                 {
-                    Vector3 position = new(x + _offset.x, transform.position.y, y + _offset.y);
                     GameObject tile = _tilesFacroty.GetTile(TileType.Ground);
+                    Vector3 position = new(x + _offset.x, transform.position.y, y + _offset.y);
+                    position += tile.transform.localScale / 2;
                     float pixel = noise.PerlinPixel(x, y);
 
                     if (pixel <= _waterValue)

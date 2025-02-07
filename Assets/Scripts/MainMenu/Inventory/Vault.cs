@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace MainMenu.Inventory
@@ -17,12 +16,10 @@ namespace MainMenu.Inventory
             Clear();
             _items.AddRange(items);
             _selectedItems.AddRange(selectedItems);
-            UnityEngine.Debug.Log($"i{_items.Count}, s{_selectedItems.Count}");
         }
 
         public List<T> GetItems<T>() where T : Item
         {
-            // TODO: To utilities method
             List<T> buildings = new();
             buildings.AddRange(_items.Where(i => i is T).Select(i => i as T));
             return buildings;

@@ -55,7 +55,8 @@ public class EntryBootstrap : MonoBehaviour
             new MainMenu.Inventory.SelectedItem(3, typeof(MainMenu.Inventory.BuildingItem)),
         };
         _inventory = new(_startItems, selectedItems);
-        _inventoryUI.Initialize(_inventory);
+        if (_inventoryUI)
+            _inventoryUI.Initialize(_inventory);
 
         Loaded = true;
     }
