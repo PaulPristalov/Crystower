@@ -69,7 +69,7 @@ namespace GameScene.BuildingSystem
         {
             float offsetX = (size.x + 1) % 2 * _grid.cellSize.x / 2;
             float offsetY = (size.y + 1) % 2 * _grid.cellSize.y / 2;
-            Vector3 offset = new Vector3(offsetX, transform.position.y, offsetY);
+            Vector3 offset = new(offsetX, transform.position.y, offsetY);
 
             Vector3 cellCenter = _grid.GetCellCenterWorld(_grid.WorldToCell(worldPosition + offset));
             return cellCenter - offset;
@@ -86,9 +86,9 @@ namespace GameScene.BuildingSystem
             Vector3 position = CalculateBuildingPosition(size, worldPosition);
             float offsetX = size.x * _grid.cellSize.x / 2;
             float offsetY = size.y * _grid.cellSize.y / 2;
-            Vector3Int startCell = _grid.WorldToCell(position - new Vector3(offsetX, offsetY));
+            Vector3Int startCell = _grid.WorldToCell(position - new Vector3(offsetX, 0, offsetY));
 
-            List<Vector2Int> occupiedCells = new List<Vector2Int>(size.x * size.y);
+            List<Vector2Int> occupiedCells = new(size.x * size.y);
             for (int x = startCell.x; x < startCell.x + size.x; x++)
             {
                 for (int y = startCell.y; y < startCell.y + size.y; y++)
@@ -110,8 +110,12 @@ namespace GameScene.BuildingSystem
         {
             foreach (var cell in GetOccupiedCells(size, worldPosition))
             {
-                if (_occupiedCells.Contains(cell) || Mathf.Abs(cell.x) >= _availableSpaceSize.x / 2 ||
-                    Mathf.Abs(cell.y) >= _availableSpaceSize.y / 2)
+                Vector2Int position = cell;
+                if (cell.x < 0) position.x++;
+                if (cell.y < 0) position.y++;
+
+                if (_occupiedCells.Contains(cell) || Mathf.Abs(position.x) >= _availableSpaceSize.x / 2 ||
+                    Mathf.Abs(position.y) >= _availableSpaceSize.y / 2)
                     return false;
             }
             return true;

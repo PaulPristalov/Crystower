@@ -57,8 +57,8 @@ public class BuildingPlacer : MonoBehaviour
     /// <exception cref="System.Exception"></exception>
     public void Place(BuildingGridObject building, Vector3 worldPosition)
     {
-        if (!_grid.IsCellsAvailable(building.Size, building.transform.position))
-            throw new System.Exception($"You can't place building at {building.transform.position}");
+        //if (!_grid.IsCellsAvailable(building.Size, building.transform.position))
+        //    throw new System.Exception($"You can't place building at {building.transform.position}");
 
         Move(building, worldPosition);
         building.Place();
