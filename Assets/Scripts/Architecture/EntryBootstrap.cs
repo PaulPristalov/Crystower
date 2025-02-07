@@ -42,9 +42,10 @@ public class EntryBootstrap : MonoBehaviour
 
         //fileManager.Save(FileNames.SETTINGS_NAME, vault1);
 
-        fileManager.Load(FileNames.SETTINGS_NAME, settingsVault);
+        settingsVault = fileManager.Load<Assets.Scripts.Settings.Vault>(FileNames.SETTINGS_NAME);
+        print($"{settingsVault.musicVolume} \n {settingsVault.language} \n {settingsVault.volume}");
 
-        settingsUI.Init(fileManager);
+        settingsUI.Init(fileManager, settingsVault);
 
         // TODO: Get this from save file.
         MainMenu.Inventory.SelectedItem[] selectedItems = {

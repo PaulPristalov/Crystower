@@ -1,9 +1,8 @@
-﻿using Assets.Scripts.Interfaces;
+﻿using Assets.Scripts.Settings.constants;
+using Assets.Scripts.Interfaces;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
-using Assets.Scripts.Settings.constants;
-using Assets.Scripts.Utils;
 
 namespace Assets.Scripts.Settings
 {
@@ -11,7 +10,7 @@ namespace Assets.Scripts.Settings
     {
         private IFileManager _fileManager;
 
-        [SerializeField] Assets.Scripts.Settings.Vault settingsVault;
+        private Assets.Scripts.Settings.Vault _settingsVault;
 
         [Space]
         [Header("UI elements")]
@@ -34,32 +33,38 @@ namespace Assets.Scripts.Settings
         [Tooltip("Button for save settings")]
         [SerializeField] private Button saveButton;
 
-        public void Init(IFileManager fileManager)
+        public void Init(IFileManager fileManager, Assets.Scripts.Settings.Vault settingsVault)
         {
             _fileManager = fileManager;
+            _settingsVault = settingsVault;
+        }
+
+        private void OnEnable()
+        {
+            print("Settings is init");  
+
+            volumeSlider.value = _settingsVault.volume;
+            musicSlider.value = _settingsVault.musicVolume;
+            isVibration.isOn = _settingsVault.isVibration;
         }
 
         private void Start()
         {
             saveButton.onClick.AddListener(SaveSettings);
-
-            volumeSlider.value = settingsVault.volume;
-            musicSlider.value = settingsVault.musicVolume;
-            isVibration.isOn = settingsVault.isVibration;
         }
 
         private void SaveSettings()
         {
-            settingsVault = new()
+            _settingsVault = new()
             {
                 volume = volumeSlider.value,
                 isVibration = isVibration.isOn,
                 musicVolume = musicSlider.value
             };
 
-            _fileManager.Save(FileNames.SETTINGS_NAME, settingsVault);
+            _fileManager.Save(FileNames.SETTINGS_NAME, _settingsVault);
 
-            _fileManager.Load(FileNames.SETTINGS_NAME, settingsVault);
+            _settingsVault = _fileManager.Load<Assets.Scripts.Settings.Vault>(FileNames.SETTINGS_NAME);
         }
     }
 }
