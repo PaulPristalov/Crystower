@@ -67,8 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e58bcd6ef860f84c8e05e7ec95f9e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _size: {x: 2, y: 2}
-  _autoPlace: 1
+  <Size>k__BackingField: {x: 2, y: 2}
+  <AutoPlace>k__BackingField: 1
+  <Type>k__BackingField: 2
 --- !u!1 &8113502374918422300
 GameObject:
   m_ObjectHideFlags: 0

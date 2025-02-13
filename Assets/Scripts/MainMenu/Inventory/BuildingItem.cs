@@ -1,3 +1,4 @@
+using GameScene.LevelGeneration;
 using UnityEngine;
 
 namespace MainMenu.Inventory
@@ -9,7 +10,7 @@ namespace MainMenu.Inventory
         [SerializeField] private int _damage = 5; // Some fields are not for all buildings
         [SerializeField] private float _attackSpeed = 2f;
         [SerializeField] private BuildingType _type = BuildingType.Shooting;
-        [SerializeField] private GroundType _ground = GroundType.Grass;
+        [SerializeField] private TileType _ground = TileType.Ground;
         [SerializeField] private int _energy = 0;
         [SerializeField] private int _resourceCost; // Change the type
         [SerializeField] private int _itemsToUpgrade = 3;
@@ -24,11 +25,4 @@ namespace MainMenu.Inventory
         Zone,
         Trap
     }
-}
-
-public enum GroundType 
-{ 
-    Grass,
-    Water,
-    Mountain
 }
