@@ -1,3 +1,5 @@
+using FirerusUtilities;
+using FirerusUtilities.Extensions;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +9,8 @@ namespace GameScene.LevelGeneration
     {
         [Header("Generation Params")]
         [SerializeField] private Vector2Int _size = new(16, 16);
+        [SerializeField] private int _maxDecosPerTile = 5;
+        [SerializeField] private GameObject[] _decos;
 
         [Header("Perlin Noise")]
         [SerializeField] private Vector2Int _noiseOffset = Vector2Int.zero;
@@ -14,10 +18,8 @@ namespace GameScene.LevelGeneration
         [Range(0f, 1f)][SerializeField] private float _waterValue = .2f;
         [Range(0f, 1f)][SerializeField] private float _mountainValue = .7f;
 
-        [Header("Tilemaps")]
+        [Header("References")]
         [SerializeField] private Transform _groundParent;
-
-        [Header("Factories")]
         [SerializeField] private TilesFactory _tilesFactory;
 
         private Vector2 _offset => new(-_size.x / 2f, -_size.y / 2f);
@@ -33,10 +35,6 @@ namespace GameScene.LevelGeneration
         public void Generate()
         {
             PlaceTiles();
-            //PlaceDecoration();
-            //PlaceCrystal();
-            //PlaceCreatures();
-
             OnLevelFinished?.Invoke();
         }
 
@@ -62,31 +60,27 @@ namespace GameScene.LevelGeneration
                     if (pixel <= _waterValue)
                     {
                         tile = _tilesFactory.GetTile(TileType.Water);
+                        Instantiate(tile, _groundParent).transform.localPosition = position;
                     }
                     else if (pixel >= _mountainValue)
                     {
-                        Instantiate(tile, position, Quaternion.identity, _groundParent);
+                        Instantiate(tile, _groundParent).transform.localPosition = position;
                         tile = _tilesFactory.GetTile(TileType.Mountain);
-                        position.y += .5f;
+                        position.y += 1f;
+                        Instantiate(tile, _groundParent).transform.localPosition = position;
                     }
-
-                    Instantiate(tile, position, Quaternion.identity, _groundParent);
+                    else
+                    {
+                        Instantiate(tile, _groundParent).transform.localPosition = position;
+                        for (int i = 0; i < Random.Range(0, _maxDecosPerTile); i++)
+                        {
+                            Vector3 decoPosition = new(Random.Range(-.5f, .5f), 0, Random.Range(-.5f, .5f));
+                            Instantiate(_decos.GetRandomElement(), _groundParent).transform.localPosition =
+                                position + decoPosition + new Vector3(0, .5f, 0);
+                        }
+                    }
                 }
             }
-        }
-
-        private void PlaceDecoration()
-        {
-            throw new System.NotImplementedException();
-        }
-        private void PlaceCrystal()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        private void PlaceCreatures()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

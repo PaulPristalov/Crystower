@@ -43,7 +43,7 @@ namespace GameScene.BuildingSystem
             if (!_drawGizmos || _grid == null)
                 return;
 
-            Gizmos.color = new Color(0, 0, 1, 0.2f);
+            Gizmos.color = new Color(1, 0, 0, 1f);
 
             for (int x = -_availableSpaceSize.x / 2; x < _availableSpaceSize.x / 2; x++)
             {
@@ -54,7 +54,7 @@ namespace GameScene.BuildingSystem
                 }
             }
 
-            Gizmos.color = new Color(0, 1, 1, 0.4f);
+            Gizmos.color = new Color(1, 1, 0, 1f);
             foreach (var cell in _occupiedCells)
             {
                 Gizmos.DrawWireCube(_grid.GetCellCenterLocal((Vector3Int)cell),

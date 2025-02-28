@@ -11,6 +11,7 @@ namespace GameScene.ResourceSystem
         [SerializeField] private SourceObject[] _resourcePrefabs;
         [SerializeField] private int _startResourcesCount = 10;
         private List<Vector3> _availablePositions;
+        private Vector3 _verticalOffset = Vector3.up;
 
         public void Generate()
         {
@@ -24,8 +25,14 @@ namespace GameScene.ResourceSystem
         private void Place(BuildingGridObject resource)
         {
             Vector3 position = _availablePositions.GetRandomElement();
-            Instantiate(resource, position, Quaternion.identity, transform);
-            _availablePositions.Remove(position);
+            while (!_grid.IsCellsAvailable(resource.Size, position))
+            {
+                position = _availablePositions.GetRandomElement();
+            }
+
+            var r = Instantiate(resource, transform);
+            r.transform.localPosition = position + _verticalOffset;
+            r.Place();
         }
     }
 }
