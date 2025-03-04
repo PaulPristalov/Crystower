@@ -1,8 +1,8 @@
 using System.Collections;
+using GameScene.BuildingSystem;
 using GameScene.LevelGeneration;
 using GameScene.ResourceSystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Architecture
 {
@@ -13,6 +13,7 @@ namespace Architecture
         [SerializeField] private LevelGenerator _levelGenerator;
         [SerializeField] private Generator _generator;
         [SerializeField] private VaultUI _ui;
+        [SerializeField] private BuildingPlacer _buildingPlacer;
     
         private void Start()
         {
@@ -25,16 +26,16 @@ namespace Architecture
 
             Vault vault = new();
             _ui.Initialize(vault);
+            _buildingPlacer.SetVault(vault);
         }
 
         private IEnumerator Load()
         {
             _levelGenerator.Generate();
             yield return null;
+            _buildingPlacer.PlaceCrystal();
             yield return null;
             _generator.Generate();
-            yield return null;
-            yield return null;
         }
     }
 }

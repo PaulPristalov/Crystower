@@ -1,3 +1,4 @@
+using System.Linq;
 using FirerusUtilities;
 using FirerusUtilities.Extensions;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace GameScene.LevelGeneration
         [SerializeField] private Vector2Int _size = new(16, 16);
         [SerializeField] private int _maxDecosPerTile = 5;
         [SerializeField] private GameObject[] _decos;
+        [SerializeField] private Vector2Int[] _reservedTilesPositions;
 
         [Header("Perlin Noise")]
         [SerializeField] private Vector2Int _noiseOffset = Vector2Int.zero;
@@ -57,6 +59,12 @@ namespace GameScene.LevelGeneration
                     position += tile.transform.localScale / 2;
                     float pixel = noise.PerlinPixel(x, y);
 
+                    if (_reservedTilesPositions.Contains(new Vector2Int(x, y)))
+                    {
+                        //Instantiate(tile, _groundParent).transform.localPosition = position;
+                        continue;
+                    }
+                    
                     if (pixel <= _waterValue)
                     {
                         tile = _tilesFactory.GetTile(TileType.Water);

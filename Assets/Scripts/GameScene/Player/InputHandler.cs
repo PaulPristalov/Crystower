@@ -12,6 +12,7 @@ namespace GameScene.Player
         
         public event UnityAction OnFPressed;
         public event UnityAction OnClicked;
+        public event UnityAction<int> OnBuildingChosen;
 
         private void Start()
         {
@@ -31,6 +32,11 @@ namespace GameScene.Player
                     obj.Click();
                 }
             }
+        }
+
+        public void ChooseBuilding(int index)
+        {
+            OnBuildingChosen?.Invoke(index);
         }
     }
 }

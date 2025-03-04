@@ -4,11 +4,11 @@ namespace GameScene.BuildingSystem
 {
     public class Building : BuildingGridObject, IClickable
     {
-        public int health = 0;
+        [field: SerializeField] public int[] ResourceCost { get; private set; }
 
         public void Click()
         {
-            health++;
+            
         }
     }
 }

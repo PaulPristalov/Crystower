@@ -1,4 +1,4 @@
-using GameScene.LevelGeneration;
+using GameScene.BuildingSystem;
 using UnityEngine;
 
 namespace MainMenu.Inventory
@@ -6,14 +6,7 @@ namespace MainMenu.Inventory
     [CreateAssetMenu(fileName = "BuildingItem", menuName = "Scriptable Objects/BuildingItem")]
     public class BuildingItem : Item
     {
-        [SerializeField] private int _health = 10;
-        [SerializeField] private int _damage = 5; // Some fields are not for all buildings
-        [SerializeField] private float _attackSpeed = 2f;
-        [SerializeField] private BuildingType _type = BuildingType.Shooting;
-        [SerializeField] private TileType _ground = TileType.Ground;
-        [SerializeField] private int _energy = 0;
-        [SerializeField] private int _resourceCost; // Change the type
-        [SerializeField] private int _itemsToUpgrade = 3;
+        [field: SerializeField] public Building Prefab { get; private set; }
     }
 
     public enum BuildingType

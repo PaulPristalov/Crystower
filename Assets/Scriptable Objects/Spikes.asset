@@ -14,11 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Spikes
   _sprite: {fileID: -7011020414044352858, guid: bf1f4ad5d17f71c4baaad67e6ac343e7, type: 3}
-  _health: 10
-  _damage: 5
-  _attackSpeed: 2
-  _type: 5
-  _ground: 0
-  _energy: 0
-  _resourceCost: 0
-  _itemsToUpgrade: 3
+  <Prefab>k__BackingField: {fileID: 6386909302757105102, guid: 39a32f3ee7a60734ea37aab20d0d85d4, type: 3}
