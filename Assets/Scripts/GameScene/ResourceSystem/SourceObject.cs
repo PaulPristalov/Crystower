@@ -1,26 +1,43 @@
 using System;
 using FirerusUtilities;
 using GameScene.BuildingSystem;
+using GameScene.HealthSystem;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace GameScene.ResourceSystem
 {
+    [RequireComponent(typeof(Health))]
     public class SourceObject : BuildingGridObject, IClickable
     {
-        [field: SerializeField] public int Health { get; private set; } = 5;
         [field: SerializeField] public Source Resources { get; private set; }
+        
+        private Health _health;
 
         public static event UnityAction<ResourceType, int> OnCollect;
 
+        protected override void Start()
+        {
+            base.Start();
+            _health = GetComponent<Health>();
+            _health.OnDying += Collect;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            _health.OnDying -= Collect;
+        }
+
         public void Click()
         {
-            Health--;
-            if (Health <= 0)
-            {
-                OnCollect?.Invoke(Resources.Type, Resources.Cost.GetRandomValue());
-                Destroy(gameObject);
-            }
+            _health.TakeDamage(1);
+        }
+
+        private void Collect()
+        {
+            OnCollect?.Invoke(Resources.Type, Resources.Cost.GetRandomValue());
+            Destroy(gameObject);
         }
         
         [Serializable]

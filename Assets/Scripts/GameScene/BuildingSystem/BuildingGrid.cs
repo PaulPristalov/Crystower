@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using GameScene.LevelGeneration;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace GameScene.BuildingSystem
 {
@@ -13,17 +15,19 @@ namespace GameScene.BuildingSystem
     [RequireComponent(typeof(Grid))]
     public class BuildingGrid : MonoBehaviour
     {
-        [SerializeField] private Vector2Int _availableSpaceSize = new(18, 10);
+        [field: SerializeField] public Vector2Int AvailableSpaceSize { get; private set; } = new(16, 16);
         [SerializeField] private TileType[] _availableTypes;
         [SerializeField] private bool _drawGizmos = true;
 
         private Grid _grid;
-        private readonly List<Vector2Int> _occupiedCells = new();
+        
+        public List<Vector2Int> OccupiedCells { get; private set; } = new();
+        public event UnityAction OnChanged;
 
         private void Awake()
         {
             _grid = GetComponent<Grid>();
-            _occupiedCells.Clear();
+            OccupiedCells.Clear();
         }
 
         private void OnEnable()
@@ -45,9 +49,9 @@ namespace GameScene.BuildingSystem
 
             Gizmos.color = new Color(1, 0, 0, 1f);
 
-            for (int x = -_availableSpaceSize.x / 2; x < _availableSpaceSize.x / 2; x++)
+            for (int x = -AvailableSpaceSize.x / 2; x < AvailableSpaceSize.x / 2; x++)
             {
-                for (int y = -_availableSpaceSize.y / 2; y < _availableSpaceSize.y / 2; y++)
+                for (int y = -AvailableSpaceSize.y / 2; y < AvailableSpaceSize.y / 2; y++)
                 {
                     Gizmos.DrawWireCube(_grid.GetCellCenterLocal(new Vector3Int(x, y, 0)),
                         new Vector3(_grid.cellSize.x, 0, _grid.cellSize.y));
@@ -55,7 +59,7 @@ namespace GameScene.BuildingSystem
             }
 
             Gizmos.color = new Color(1, 1, 0, 1f);
-            foreach (var cell in _occupiedCells)
+            foreach (var cell in OccupiedCells)
             {
                 Gizmos.DrawWireCube(_grid.GetCellCenterLocal((Vector3Int)cell),
                     new Vector3(_grid.cellSize.x, 0, _grid.cellSize.y));
@@ -117,8 +121,8 @@ namespace GameScene.BuildingSystem
                 if (cell.x < 0) position.x++;
                 if (cell.y < 0) position.y++;
 
-                if (_occupiedCells.Contains(cell) || Mathf.Abs(position.x) >= _availableSpaceSize.x / 2 ||
-                    Mathf.Abs(position.y) >= _availableSpaceSize.y / 2)
+                if (OccupiedCells.Contains(cell) || Mathf.Abs(position.x) >= AvailableSpaceSize.x / 2 ||
+                    Mathf.Abs(position.y) >= AvailableSpaceSize.y / 2)
                     return false;
             }
 
@@ -133,9 +137,9 @@ namespace GameScene.BuildingSystem
         public List<Vector3> GetAvailablePositions(Vector2Int size)
         {
             List<Vector3> positions = new();
-            for (int x = -_availableSpaceSize.x / 2; x < _availableSpaceSize.x / 2; x++)
+            for (int x = -AvailableSpaceSize.x / 2; x < AvailableSpaceSize.x / 2; x++)
             {
-                for (int y = -_availableSpaceSize.y / 2; y < _availableSpaceSize.y / 2; y++)
+                for (int y = -AvailableSpaceSize.y / 2; y < AvailableSpaceSize.y / 2; y++)
                 {
                     Vector3 position = CalculateBuildingPosition(size,
                         _grid.GetCellCenterLocal(new Vector3Int(x, y, 0)));
@@ -152,7 +156,8 @@ namespace GameScene.BuildingSystem
         /// <param name="cells"></param>
         public void OccupyCells(List<Vector2Int> cells)
         {
-            _occupiedCells.AddRange(cells);
+            OccupiedCells.AddRange(cells);
+            OnChanged?.Invoke();
         }
 
         /// <summary>
@@ -163,8 +168,9 @@ namespace GameScene.BuildingSystem
         {
             foreach (var cell in cells)
             {
-                _occupiedCells.Remove(cell);
+                OccupiedCells.Remove(cell);
             }
+            OnChanged?.Invoke();
         }
 
         private void ObjectPlaced(BuildingGridObject obj)

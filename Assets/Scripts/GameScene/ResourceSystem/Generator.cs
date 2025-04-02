@@ -11,7 +11,7 @@ namespace GameScene.ResourceSystem
         [SerializeField] private SourceObject[] _resourcePrefabs;
         [SerializeField] private int _startResourcesCount = 10;
         private List<Vector3> _availablePositions;
-        private Vector3 _verticalOffset = Vector3.up;
+        private Vector3 _verticalOffset = Vector3.zero;
 
         public void Generate()
         {

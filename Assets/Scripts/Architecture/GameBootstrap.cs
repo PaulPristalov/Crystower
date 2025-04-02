@@ -14,6 +14,7 @@ namespace Architecture
         [SerializeField] private Generator _generator;
         [SerializeField] private VaultUI _ui;
         [SerializeField] private BuildingPlacer _buildingPlacer;
+        [SerializeField] private GridVisualizer _gridVisualizer;
     
         private void Start()
         {
@@ -22,6 +23,7 @@ namespace Architecture
                 _seed = Random.Range(int.MinValue, int.MaxValue);
             }
             Random.InitState(_seed);
+            
             StartCoroutine(Load());
 
             Vault vault = new();
@@ -31,11 +33,13 @@ namespace Architecture
 
         private IEnumerator Load()
         {
+            _gridVisualizer.gameObject.SetActive(false);
             _levelGenerator.Generate();
             yield return null;
             _buildingPlacer.PlaceCrystal();
             yield return null;
             _generator.Generate();
+            _gridVisualizer.gameObject.SetActive(true);
         }
     }
 }

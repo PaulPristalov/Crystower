@@ -8,7 +8,7 @@ namespace FirerusUtilities
     [Serializable]
     public class Timer
     {
-        public float StartTime { get; set; } = 1;
+        public float StartTime { get; set; }
         public float Multiplier { get; set; } = 1f;
 
         public float CurrentTime { get; protected set; }
@@ -65,7 +65,7 @@ namespace FirerusUtilities
 
             while (true)
             {
-                if (Paused)
+                if (Paused || CurrentTime <= 0)
                     yield return null;
 
                 CurrentTime -= Time.deltaTime * Multiplier;
@@ -73,7 +73,6 @@ namespace FirerusUtilities
                 if (this <= 0)
                 {
                     Finished?.Invoke();
-                    break;
                 }
 
                 yield return null;

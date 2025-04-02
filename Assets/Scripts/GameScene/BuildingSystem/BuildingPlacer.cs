@@ -1,8 +1,9 @@
 using System;
+using GameScene.Buildings;
 using GameScene.Player;
 using MainMenu.Inventory;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Events;
 using Vault = GameScene.ResourceSystem.Vault;
 
 namespace GameScene.BuildingSystem
@@ -19,6 +20,11 @@ namespace GameScene.BuildingSystem
 
         private Vault _resourceVault;
         private Building _currentBuilding;
+
+        public BuildingItem[] Buildings => _buildings; // Temp
+
+        public event UnityAction OnStartPlacing; 
+        public event UnityAction OnFinishPlacing; 
 
         private bool CanPlaceCurrent => _currentBuilding && _grid.IsCellsAvailable(_currentBuilding.Size,
             _currentBuilding.transform.position) && _resourceVault.Check(_currentBuilding.ResourceCost);
@@ -58,9 +64,16 @@ namespace GameScene.BuildingSystem
             if (_currentBuilding)
             {
                 Destroy(_currentBuilding.gameObject);
+                
+                if (_currentBuilding.Id == _buildings[index].Prefab.Id)
+                {
+                    OnFinishPlacing?.Invoke();
+                    return;
+                }
             }
 
             _currentBuilding = Instantiate(_buildings[index].Prefab, transform);
+            OnStartPlacing?.Invoke();
         }
 
         public void PlaceCurrent()
@@ -70,6 +83,7 @@ namespace GameScene.BuildingSystem
             _resourceVault.Decrease(_currentBuilding.ResourceCost);
             Place(_currentBuilding, _currentBuilding.transform.position);
             _currentBuilding = null;
+            OnFinishPlacing?.Invoke();
         }
 
         /// <summary>
